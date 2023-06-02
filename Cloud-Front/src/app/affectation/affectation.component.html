@@ -1,0 +1,110 @@
+<div fxLayout="row">
+
+    <div fxFlex.gt-sm="100%">
+        <mat-card>
+            <mat-card-content>
+                <div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+                    <h4 class="font-medium m-b-0 m-t-0">Liste des taches affectées</h4>
+                </div>
+                &nbsp;&nbsp;
+                <mat-form-field appearance="fill" style="width:25%">
+                    <mat-label>Projets</mat-label>
+
+                    <mat-select required [value]="selectedProject" (selectionChange)="projetChange($event)">
+                        <mat-option [value]="projet.codeProjet"
+                            *ngFor="let projet of projets">{{projet.intituleProjet}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-form-field class="search-form-field" floatLabel="never" style="width: 20%;">
+                    <input matInput [(ngModel)]="searchKey" placeholder="Recherche" autocomplete="off"
+                        (keyup)="applyFilter()">
+                    <button mat-button matSuffix mat-icon-button aria-label="clear" *ngIf="searchKey"
+                        (click)="onSearchClear()">
+                        <mat-icon> close</mat-icon>
+                    </button>
+                </mat-form-field>
+                &nbsp;&nbsp;
+                <button mat-raised-button color="primary"  (click)="openDialog('Add', {})" *ngIf="roleUser !== 'Collaborateur';">
+                    <mat-icon>note_add</mat-icon>
+                </button>
+
+                <div class="mat-elevation-z8">
+                    <mat-table [dataSource]='dataSource' matSort>
+
+                        <ng-container matColumnDef="codeTache">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Code </b> </mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.codeTache}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="intituleTache">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Intitule </b> </mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.intituleTache}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="chargeHoraireTache" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> CH Tache </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.chargeHoraireTache}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="chargeHorairePlanifiee" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> CH planifiée </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.chargeHorairePlanifiee}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="chargeHoraireRealisee" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> CH Realisée </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.chargeHoraireRealisee}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Status </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.status}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="nom" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Nom </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.nom}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="prenom" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Prenom </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">{{tache.prenom}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef> <b> Actions </b></mat-header-cell>
+                            <mat-cell *matCellDef="let tache">
+                              
+                                <a (click)="openDialog('Update', tache)" class="m-r-10 cursor-pointer"
+                                ><mat-icon class="text-info">create</mat-icon></a>
+                                <a (click)="openDialog('Delete', tache)" class="m-r-10 cursor-pointer"> 
+                                <mat-icon class="text-danger">delete</mat-icon>
+                                </a>
+                                <span *ngIf="roleUser === 'Manager'; else elseTemplate">
+                                    <a (click)="openCkeckDialog('Validated', tache)" class="m-r-10 cursor-pointer" *ngIf="tache.status !== 'Validated'; else elseTemplate"> 
+                                        <mat-icon class="text-success">check</mat-icon>
+                                    </a>
+                                </span >
+                                <ng-template #elseTemplate>
+                                    <a (click)="openCkeckDialog('Done', tache)" class="m-r-10 cursor-pointer" *ngIf="tache.status !== 'Validated'; else elseTemplate"> 
+                                        <mat-icon class="text-success">check</mat-icon>
+                                    </a>
+                                </ng-template>
+                                
+
+
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"> </mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize]="10" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

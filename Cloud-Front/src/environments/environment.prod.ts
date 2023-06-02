@@ -1,0 +1,5 @@
+export const environment = {
+  production: true,
+  API_URL_MS_USER: 'http://localhost:8080',
+  API_URL_MS_METIER: 'http://localhost:8082',
+};

@@ -1,0 +1,93 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div class="main-container" [dir]="dir" [ngClass]="{'minisidebar': minisidebar, 'boxed': boxed, 'danger': danger, 'blue': blue, 'green': green, 'horizontal' : horizontal }">
+
+        <!-- ============================================================== -->
+        <!-- Topbar - style you can find in header.scss -->
+        <!-- ============================================================== -->
+        <mat-toolbar color="primary" class="topbar relative">
+            <div class="w-100 fix-width-for-horizontal">
+                <!-- ============================================================== -->
+                <!-- Logo - style you can find in header.scss -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="assets/images/logo.png" alt="homepage" class="dark-logo">
+                            <!-- Light Logo icon -->
+                            <img src="assets/images/logo.png" alt="homepage" class="light-logo">
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- sidebar toggle -->
+                <!-- ============================================================== -->
+
+                <button mat-icon-button (click)="snav.toggle()" class="sidebar-toggle"
+                    value="sidebarclosed">
+                    <mat-icon>menu</mat-icon>
+                </button>
+               
+                <span fxFlex></span>
+                <!-- ============================================================== -->
+                <!-- app header component - style you can find in header.scss / header.component.ts-->
+                <!-- ============================================================== -->
+                <div *ngIf="!horizontal else horizontalheader">
+                    <app-vertical-header></app-vertical-header>
+                </div>
+
+                <ng-template #horizontalheader>
+                    <app-horizontal-header></app-horizontal-header>
+                </ng-template>
+
+               
+            </div>
+
+        </mat-toolbar>
+        <!-- ============================================================== -->
+        <!-- End Topbar - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+            [ngClass]="{'minisidebar': minisidebar}">
+            <!-- ============================================================== -->
+            <!-- Sidebar - style you can find in sidebar.scss -->
+            <!-- ============================================================== -->
+            <mat-sidenav #snav id="snav" class="pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0"
+                [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches" (open)="sidebarOpened = true"
+                (close)="sidebarOpened = false">
+
+                <perfect-scrollbar *ngIf="!horizontal; else horizontalsidebar" class="scbar" [config]="config">
+                    <app-vertical-sidebar class="app-sidebar" [showClass]='status' (notify)="snav.toggle()">
+                    </app-vertical-sidebar>
+                </perfect-scrollbar>
+
+                <ng-template #horizontalsidebar>
+                    <app-horizontal-sidebar></app-horizontal-sidebar>
+                </ng-template>
+            </mat-sidenav>
+
+            <!-- ============================================================== -->
+            <!-- Page container - style you can find in pages.scss -->
+            <!-- ============================================================== -->
+            <mat-sidenav-content class="page-wrapper" [ngClass]="status ? 'minitoggle' : ''">
+
+                <app-breadcrumb></app-breadcrumb>
+                <div class="page-content">
+                    <router-outlet>
+                        <app-spinner></app-spinner>
+                    </router-outlet>
+
+                </div>
+            </mat-sidenav-content>
+            <!-- ============================================================== -->
+            <!-- Page container - style you can find in pages.scss -->
+            <!-- ============================================================== -->
+        </mat-sidenav-container>
+    </div>

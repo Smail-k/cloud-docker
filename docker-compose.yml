@@ -1,0 +1,85 @@
+version: "3"
+services: 
+  springboot-app:
+    image: usersms
+    restart: always
+    build: ./Cloud-Ms-users
+    ports:
+      - 8080:8080 
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      endPoint: discovery-app
+    depends_on :
+      - mysqldb
+      - discovery-app
+
+  discovery-app:
+      container_name: discovery-app
+      image: discov-app
+      build: ./Cloud-discovery
+      ports:
+        - 8761:8761
+
+  metier-app:
+    image: metierms
+    build: ./Cloud-MS-metier
+    ports:
+      - 8082:8080
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      endPoint: discovery-app
+    depends_on :
+      - discovery-app
+      - springboot-app
+    
+
+  mysqldb: 
+    container_name: mysqldb
+    image: mysql:8.0
+    volumes:
+      -  /home/user/Desktop/db:/var/lib/mysql
+    ports: 
+     - 3307:3306   
+    environment:
+      MYSQL_DATABASE: db_auth
+      MYSQL_ROOT_PASSWORD: root
+
+  # mysqldb-metier: 
+  #   container_name: mysqldbmetier
+  #   image: mysql:8.0
+  #   volumes:
+  #     -  /home/user/Desktop/db:/var/lib/mysql
+  #   ports: 
+  #    - 3308:3306   
+  #   environment:
+  #     MYSQL_DATABASE: cloud_metier_db
+  #     MYSQL_ROOT_PASSWORD: root
+
+  phpmyadmin-auth:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8090:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  app:
+    image: cloud-front
+    ports:
+      - 80:80
+    build:
+      context: ./Cloud-Front
+      dockerfile: Dockerfile  
+    environment:
+      VM_ENV: production
+      API_URL_MS_USER: http://localhost:8080
+      API_URL_MS_METIER: http://localhost:8082
+    depends_on :
+      - discovery-app
+      - springboot-app

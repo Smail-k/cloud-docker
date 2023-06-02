@@ -1,0 +1,30 @@
+<div fxLayout="row">
+    <div fxFlex.gt-sm="100%">
+        <div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+            <h4 class="font-medium m-b-0 m-t-0">Validation d'une Tache</h4>
+        </div>
+
+        <mat-dialog-content class="mat-typography" *ngIf="action !=='Validated'; else elseTemplate">
+            <!-- <mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate"> -->
+            <form #userForm="ngForm">
+
+                <mat-form-field style="width:100%">
+                    <input type="number" matInput required id="chargeHorairePlanifiee" name="chargeHorairePlanifiee"
+                        [(ngModel)]="local_data.chargeHoraireRealisee" placeholder="Charge Horaire réalisée" />
+                </mat-form-field>
+
+            </form>
+        </mat-dialog-content>
+
+        <ng-template #elseTemplate>
+            Etes-vous sûr de vouloir valider cette tâche?
+        </ng-template>
+
+
+        <div mat-dialog-actions align="end">
+            <button mat-button (click)="doAction()" color="warn">{{action}}</button>
+            <button mat-button (click)="closeDialog()" mat-flat-button>Cancel</button>
+        </div>
+
+    </div>
+</div>

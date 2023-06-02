@@ -1,0 +1,36 @@
+<div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+  <h4 class="font-medium m-b-0 m-t-0">{{action}} d'un projet</h4>
+</div>
+<!-- <h2 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h2> -->
+<mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate">
+  <form #userForm="ngForm">
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        required
+        id="intituleProjet"
+        name="intituleProjet"
+        [(ngModel)]="local_data.intituleProjet"
+        placeholder="Intitule"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        type="number"
+        matInput
+        required
+        id="chargeHoraireProjet"
+        name="chargeHoraireProjet"
+        [(ngModel)]="local_data.chargeHoraireProjet"
+        placeholder="Charge Horaire"
+      />
+    </mat-form-field>
+    
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate> Etes-vous sûr de vouloir supprimer <b>{{local_data.intituleProjet}}</b>? </ng-template>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="doAction()" color="warn">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button>Cancel</button>
+</div>

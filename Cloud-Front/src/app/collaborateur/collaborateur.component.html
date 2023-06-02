@@ -1,0 +1,65 @@
+<div fxLayout="row">
+
+    <div fxFlex.gt-sm="100%">
+        <mat-card>
+            <mat-card-content>
+                <div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+                    <h4 class="font-medium m-b-0 m-t-0">Liste des collaborateurs</h4>
+                </div>
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-form-field class="search-form-field" floatLabel="never" style="width: 20%;">
+                    <input matInput [(ngModel)]="searchKey" placeholder="Recherche" autocomplete="off"
+                        (keyup)="applyFilter()">
+                    <button mat-button matSuffix mat-icon-button aria-label="clear" *ngIf="searchKey"
+                        (click)="onSearchClear()">
+                        <mat-icon> close</mat-icon>
+                    </button>
+                </mat-form-field>
+                &nbsp;&nbsp;
+                <button mat-raised-button color="primary" (click)="openDialog('Add', {})">
+                    <mat-icon>person_add</mat-icon>
+                </button>
+
+                <div class="mat-elevation-z8">
+                    <mat-table [dataSource]='dataSource' matSort>
+
+                        <ng-container matColumnDef="code">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Code </b> </mat-header-cell>
+                            <mat-cell *matCellDef="let manager">{{manager.codeCollab}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="nom">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Nom </b> </mat-header-cell>
+                            <mat-cell *matCellDef="let manager">{{manager.nom}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="prenom" >
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> <b> Prenom </b></mat-header-cell>
+                            <mat-cell *matCellDef="let manager">{{manager.prenom}} </mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef> <b> Actions </b></mat-header-cell>
+                            <mat-cell *matCellDef="let manager">
+
+                                <a (click)="openDialog('Update', manager)" class="m-r-10 cursor-pointer"
+                                ><mat-icon class="text-info">create</mat-icon></a>
+                                <a (click)="openDialog('Delete', manager)" class="m-r-10 cursor-pointer"> 
+                                <mat-icon class="text-danger">delete</mat-icon>
+                                </a>
+
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"> </mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize]="10" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

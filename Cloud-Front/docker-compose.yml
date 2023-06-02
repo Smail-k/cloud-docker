@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  app:
+    image: cloud-from
+    ports:
+      - 4200:4200
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    environment:
+      VM_ENV: production
+      API_URL_MS_USER: http://localhost:8080
+      API_URL_MS_METIER: http://localhost:8082

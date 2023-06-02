@@ -1,0 +1,61 @@
+<div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+  <h4 class="font-medium m-b-0 m-t-0">Affectation d'une Tache</h4>
+</div>
+<!-- <h2 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h2> -->
+<mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate">
+<!-- <mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate"> -->
+  <form #userForm="ngForm">
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Projets</mat-label>
+
+      <mat-select required [value]="selectedProject" (selectionChange)="projetChange($event)">
+          <mat-option [value]="projet.codeProjet"
+              *ngFor="let projet of projets">{{projet.intituleProjet}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Taches</mat-label>
+
+      <mat-select required [value]="selectedTache" (selectionChange)="tacheChange($event)">
+          <mat-option [value]="tache.codeTache"
+              *ngFor="let tache of taches">{{tache.intituleTache}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Collaborateur</mat-label>
+
+      <mat-select required [value]="selectedCollabo" (selectionChange)="collabChange($event)">
+          <mat-option [value]="collabo.codeCollab"
+              *ngFor="let collabo of collaborateurs">{{collabo.nom}} {{collabo.prenom}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <input
+        type="number"
+        matInput
+        required
+        id="chargeHorairePlanifiee"
+        name="chargeHorairePlanifiee"
+        [(ngModel)]="local_data.chargeHorairePlanifiee"
+        placeholder="Charge Horaire planifiée"
+      />
+    </mat-form-field>
+    
+  </form>
+</mat-dialog-content>
+
+<ng-template #elseTemplate>
+  Etes-vous sûr de vouloir supprimer cette ligne?
+</ng-template>
+
+<!-- <ng-template #elseifTemplate *ngIf="action === 'Validated'; else elseTemplate"> Etes-vous sûr de vouloir valider cette tâche? </ng-template>
+<ng-template #elseTemplate> Etes-vous sûr de vouloir supprimer cette ligne? </ng-template> -->
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="doAction()" color="warn">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button>Cancel</button>
+</div>

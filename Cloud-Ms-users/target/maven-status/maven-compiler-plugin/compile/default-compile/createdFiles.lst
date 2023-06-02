@@ -1,0 +1,14 @@
+com\polytech\usersmicroservice\repos\UserRepository.class
+com\polytech\usersmicroservice\security\SecurityConfig$1.class
+com\polytech\usersmicroservice\restControllers\UserRestController.class
+com\polytech\usersmicroservice\security\JWTAuthenticationFilter.class
+com\polytech\usersmicroservice\UsersMicroserviceApplication.class
+com\polytech\usersmicroservice\repos\RoleRepository.class
+com\polytech\usersmicroservice\entities\User.class
+com\polytech\usersmicroservice\security\JWTAuthorizationFilter.class
+com\polytech\usersmicroservice\security\MyUserDetailsService.class
+com\polytech\usersmicroservice\security\SecParams.class
+com\polytech\usersmicroservice\security\SecurityConfig.class
+com\polytech\usersmicroservice\service\UserService.class
+com\polytech\usersmicroservice\service\UserServiceImpl.class
+com\polytech\usersmicroservice\entities\Role.class
